@@ -64,6 +64,10 @@ A full-stack marketplace web application built with Laravel.
 - Orchid admin panel installed
 - Database migrations created
 - Model relationships implemented
+- Authentication system (register/login)
+- Role-based registration (Customer, Vendor)
+- Phone field added to users
+
 
 ### 🚧 In Progress
 

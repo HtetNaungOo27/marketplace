@@ -19,7 +19,9 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'phone',
         'password',
+        'role',
     ];
 
     /**
@@ -75,5 +77,20 @@ class User extends Authenticatable
             ->map(fn($part) => strtoupper(substr($part, 0, 1)))
             ->take(2)
             ->implode('');
+    }
+
+    public function vendor()
+    {
+        return $this->hasOne(Vendor::class);
+    }
+
+    public function customer()
+    {
+        return $this->hasOne(Customer::class);
+    }
+
+    public function deliveries()
+    {
+        return $this->hasMany(Delivery::class, 'delivery_staff_id');
     }
 }

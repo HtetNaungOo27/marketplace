@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Marketplace System
 
 A full-stack marketplace web application built with:

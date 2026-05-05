@@ -8,4 +8,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::view('dashboard', 'dashboard')->name('dashboard');
 });
 
+
+Route::middleware(['auth'])->group(function () {
+
+    Route::get('/vendor/dashboard', function () {
+        return view('vendor.dashboard');
+    });
+
+    Route::get('/delivery/dashboard', function () {
+        return view('delivery.dashboard');
+    });
+
+});
+
 require __DIR__.'/settings.php';

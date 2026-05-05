@@ -7,14 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     protected $fillable = [
-        'vendor_id',
-        'category_id',
-        'product_name',
-        'description',
-        'price',
-        'stock_quantity',
-        'status',
-    ];
+    'vendor_id',
+    'category_id',
+    'product_name',
+    'description',
+    'price',
+    'stock_quantity',
+    'status',
+    'image',
+];
 
     public function vendor()
     {

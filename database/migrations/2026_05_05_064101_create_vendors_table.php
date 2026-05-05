@@ -12,9 +12,20 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('vendors', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
+    $table->id();
+
+    $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+
+    $table->string('store_name');
+    $table->string('business_license')->nullable();
+
+    $table->enum('approval_status', ['Pending', 'Approved', 'Rejected'])
+          ->default('Pending');
+
+    $table->date('join_date')->nullable();
+
+    $table->timestamps();
+});
     }
 
     /**

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Livewire\Vendor\ProductManager;
 
 Route::view('/', 'welcome')->name('home');
 
@@ -18,6 +19,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/delivery/dashboard', function () {
         return view('delivery.dashboard');
     });
+
+    Route::get('/vendor/products', ProductManager::class);
 
 });
 

@@ -44,7 +44,5 @@ cp .env.example .env
 php artisan key:generate
 php artisan migrate
 php artisan serve
-=======
-# marketplace
-Market Place Management System 
->>>>>>> 598c0bc (Initial commit)
+
+

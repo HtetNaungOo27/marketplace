@@ -14,6 +14,11 @@ A full-stack marketplace web application built with Laravel.
 
 ---
 
+### UI Updates
+- Added shared marketplace navbar layout
+- Removed default starter sidebar from vendor product page
+- Vendor product manager now uses modern card-based UI
+
 ## 👥 User Roles
 
 - Admin

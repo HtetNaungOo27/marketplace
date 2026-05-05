@@ -2,8 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Vendor\ProductManager;
+use App\Livewire\Shop\ProductListing;
 
-Route::view('/', 'welcome')->name('home');
+Route::get('/', ProductListing::class)->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::view('dashboard', 'dashboard')->name('dashboard');

@@ -10,6 +10,7 @@ use Laravel\Fortify\Fortify;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Title;
 use Livewire\Component;
+use Illuminate\Support\Facades\Hash;
 
 new #[Title('Security settings')] class extends Component {
     use PasswordValidationRules;
@@ -58,7 +59,7 @@ new #[Title('Security settings')] class extends Component {
         }
 
         Auth::user()->update([
-            'password' => $validated['password'],
+            'password' => Hash::make($validated['password']),
         ]);
 
         $this->reset('current_password', 'password', 'password_confirmation');
@@ -99,24 +100,21 @@ new #[Title('Security settings')] class extends Component {
                 type="password"
                 required
                 autocomplete="current-password"
-                viewable
-            />
+                viewable />
             <flux:input
                 wire:model="password"
                 :label="__('New password')"
                 type="password"
                 required
                 autocomplete="new-password"
-                viewable
-            />
+                viewable />
             <flux:input
                 wire:model="password_confirmation"
                 :label="__('Confirm password')"
                 type="password"
                 required
                 autocomplete="new-password"
-                viewable
-            />
+                viewable />
 
             <div class="flex items-center gap-4">
                 <flux:button variant="primary" type="submit" data-test="update-password-button">
@@ -126,48 +124,46 @@ new #[Title('Security settings')] class extends Component {
         </form>
 
         @if ($canManageTwoFactor)
-            <section class="mt-12">
-                <flux:heading>{{ __('Two-factor authentication') }}</flux:heading>
-                <flux:subheading>{{ __('Manage your two-factor authentication settings') }}</flux:subheading>
+        <section class="mt-12">
+            <flux:heading>{{ __('Two-factor authentication') }}</flux:heading>
+            <flux:subheading>{{ __('Manage your two-factor authentication settings') }}</flux:subheading>
 
-                <div class="flex flex-col w-full mx-auto space-y-6 text-sm" wire:cloak>
-                    @if ($twoFactorEnabled)
-                        <div class="space-y-4">
-                            <flux:text>
-                                {{ __('You will be prompted for a secure, random pin during login, which you can retrieve from the TOTP-supported application on your phone.') }}
-                            </flux:text>
+            <div class="flex flex-col w-full mx-auto space-y-6 text-sm" wire:cloak>
+                @if ($twoFactorEnabled)
+                <div class="space-y-4">
+                    <flux:text>
+                        {{ __('You will be prompted for a secure, random pin during login, which you can retrieve from the TOTP-supported application on your phone.') }}
+                    </flux:text>
 
-                            <div class="flex justify-start">
-                                <flux:button
-                                    variant="danger"
-                                    wire:click="disable"
-                                >
-                                    {{ __('Disable 2FA') }}
-                                </flux:button>
-                            </div>
+                    <div class="flex justify-start">
+                        <flux:button
+                            variant="danger"
+                            wire:click="disable">
+                            {{ __('Disable 2FA') }}
+                        </flux:button>
+                    </div>
 
-                            <livewire:pages::settings.two-factor.recovery-codes :$requiresConfirmation />
-                        </div>
-                    @else
-                        <div class="space-y-4">
-                            <flux:text variant="subtle">
-                                {{ __('When you enable two-factor authentication, you will be prompted for a secure pin during login. This pin can be retrieved from a TOTP-supported application on your phone.') }}
-                            </flux:text>
-
-                            <flux:modal.trigger name="two-factor-setup-modal">
-                                <flux:button
-                                    variant="primary"
-                                    wire:click="$dispatch('start-two-factor-setup')"
-                                >
-                                    {{ __('Enable 2FA') }}
-                                </flux:button>
-                            </flux:modal.trigger>
-
-                            <livewire:pages::settings.two-factor-setup-modal :requires-confirmation="$requiresConfirmation" />
-                        </div>
-                    @endif
+                    <livewire:pages::settings.two-factor.recovery-codes :$requiresConfirmation />
                 </div>
-            </section>
+                @else
+                <div class="space-y-4">
+                    <flux:text variant="subtle">
+                        {{ __('When you enable two-factor authentication, you will be prompted for a secure pin during login. This pin can be retrieved from a TOTP-supported application on your phone.') }}
+                    </flux:text>
+
+                    <flux:modal.trigger name="two-factor-setup-modal">
+                        <flux:button
+                            variant="primary"
+                            wire:click="$dispatch('start-two-factor-setup')">
+                            {{ __('Enable 2FA') }}
+                        </flux:button>
+                    </flux:modal.trigger>
+
+                    <livewire:pages::settings.two-factor-setup-modal :requires-confirmation="$requiresConfirmation" />
+                </div>
+                @endif
+            </div>
+        </section>
         @endif
     </x-pages::settings.layout>
 </section>

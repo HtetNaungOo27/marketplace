@@ -6,9 +6,11 @@ use Orchid\Filters\Types\Like;
 use Orchid\Filters\Types\Where;
 use Orchid\Filters\Types\WhereDateStartEnd;
 use Orchid\Platform\Models\User as Authenticatable;
+use Laravel\Fortify\TwoFactorAuthenticatable;
 
 class User extends Authenticatable
 {
+    use TwoFactorAuthenticatable;
     /**
      * The attributes that are mass assignable.
      *
@@ -47,11 +49,11 @@ class User extends Authenticatable
      * @var array
      */
     protected $allowedFilters = [
-           'id'         => Where::class,
-           'name'       => Like::class,
-           'email'      => Like::class,
-           'updated_at' => WhereDateStartEnd::class,
-           'created_at' => WhereDateStartEnd::class,
+        'id'         => Where::class,
+        'name'       => Like::class,
+        'email'      => Like::class,
+        'updated_at' => WhereDateStartEnd::class,
+        'created_at' => WhereDateStartEnd::class,
     ];
 
     /**
@@ -66,4 +68,12 @@ class User extends Authenticatable
         'updated_at',
         'created_at',
     ];
+
+    public function initials(): string
+    {
+        return collect(explode(' ', $this->name))
+            ->map(fn($part) => strtoupper(substr($part, 0, 1)))
+            ->take(2)
+            ->implode('');
+    }
 }

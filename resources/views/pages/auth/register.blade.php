@@ -16,8 +16,7 @@
                 required
                 autofocus
                 autocomplete="name"
-                :placeholder="__('Full name')"
-            />
+                :placeholder="__('Full name')" />
 
             <!-- Email Address -->
             <flux:input
@@ -27,8 +26,20 @@
                 type="email"
                 required
                 autocomplete="email"
-                placeholder="email@example.com"
-            />
+                placeholder="email@example.com" />
+
+            <flux:input
+                name="phone"
+                :label="__('Phone')"
+                :value="old('phone')"
+                type="text"
+                autocomplete="tel"
+                placeholder="09xxxxxxxxx" />
+
+            <select name="role" class="border rounded px-3 py-2">
+                <option value="Customer">Customer</option>
+                <option value="Vendor">Vendor</option>
+            </select>
 
             <!-- Password -->
             <flux:input
@@ -38,8 +49,7 @@
                 required
                 autocomplete="new-password"
                 :placeholder="__('Password')"
-                viewable
-            />
+                viewable />
 
             <!-- Confirm Password -->
             <flux:input
@@ -49,8 +59,7 @@
                 required
                 autocomplete="new-password"
                 :placeholder="__('Confirm password')"
-                viewable
-            />
+                viewable />
 
             <div class="flex items-center justify-end">
                 <flux:button type="submit" variant="primary" class="w-full" data-test="register-user-button">

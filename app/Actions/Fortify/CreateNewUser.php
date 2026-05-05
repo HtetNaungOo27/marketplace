@@ -29,12 +29,31 @@ class CreateNewUser implements CreatesNewUsers
             'role' => ['nullable', 'in:Customer,Vendor'],
         ])->validate();
 
-        return User::create([
+        $user = User::create([
             'name' => $input['name'],
             'email' => $input['email'],
             'phone' => $input['phone'] ?? null,
             'password' => Hash::make($input['password']),
             'role' => $input['role'] ?? 'Customer',
         ]);
+
+        if ($user->role === 'Vendor') {
+            \App\Models\Vendor::create([
+                'user_id' => $user->id,
+                'store_name' => $user->name . "'s Store",
+                'business_license' => null,
+                'approval_status' => 'Pending',
+                'join_date' => now(),
+            ]);
+        }
+
+        if ($user->role === 'Customer') {
+            \App\Models\Customer::create([
+                'user_id' => $user->id,
+                'shipping_address' => null,
+            ]);
+        }
+
+        return $user;
     }
 }

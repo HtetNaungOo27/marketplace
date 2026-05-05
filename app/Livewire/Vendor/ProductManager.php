@@ -80,10 +80,10 @@ class ProductManager extends Component
     }
 
     public function render()
-    {
-        return view('livewire.vendor.product-manager', [
-            'products' => Product::where('vendor_id', auth()->user()->vendor->id)->latest()->get(),
-            'categories' => Category::all(),
-        ]);
-    }
+{
+    return view('livewire.vendor.product-manager', [
+        'products' => Product::where('vendor_id', auth()->user()->vendor->id)->latest()->get(),
+        'categories' => Category::all(),
+    ])->layout('layouts.marketplace');
+}
 }

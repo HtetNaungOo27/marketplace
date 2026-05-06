@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Orchid\Screen\AsSource;
 
 class VendorPayout extends Model
 {
+    use AsSource;
     protected $fillable = [
         'vendor_id',
         'order_id',

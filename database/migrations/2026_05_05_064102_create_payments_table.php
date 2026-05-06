@@ -13,6 +13,19 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
+
+            $table->foreignId('order_id')->constrained()->cascadeOnDelete();
+
+            $table->enum('payment_method', [
+                'KBZPay',
+                'WavePay',
+                'CashOnDelivery',
+                'BankTransfer'
+            ]);
+
+            $table->string('payment_status')->default('Pending');
+            $table->dateTime('payment_date')->nullable();
+
             $table->timestamps();
         });
     }

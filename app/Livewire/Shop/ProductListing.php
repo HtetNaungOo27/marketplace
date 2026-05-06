@@ -10,6 +10,12 @@ class ProductListing extends Component
 {
     public $search = '';
     public $category_id = '';
+    public $sort = 'latest';
+
+    public function mount()
+    {
+        $this->category_id = request('category', '');
+    }
 
     public function render()
     {
@@ -21,12 +27,20 @@ class ProductListing extends Component
             ->when($this->category_id, function ($query) {
                 $query->where('category_id', $this->category_id);
             })
-            ->latest()
+            ->when($this->sort === 'price_low', function ($query) {
+                $query->orderBy('price', 'asc');
+            })
+            ->when($this->sort === 'price_high', function ($query) {
+                $query->orderBy('price', 'desc');
+            })
+            ->when($this->sort === 'latest', function ($query) {
+                $query->latest();
+            })
             ->get();
 
         return view('livewire.shop.product-listing', [
             'products' => $products,
-            'categories' => Category::all(),
+            'categories' => Category::withCount('products')->get(),
         ])->layout('layouts.marketplace');
     }
 }

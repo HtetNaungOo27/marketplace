@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Orchid\Screen\AsSource;
 
 class Delivery extends Model
 {
+    use AsSource;
     protected $fillable = [
         'order_id',
         'delivery_staff_id',

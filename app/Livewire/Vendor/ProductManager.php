@@ -5,9 +5,11 @@ namespace App\Livewire\Vendor;
 use Livewire\Component;
 use App\Models\Product;
 use App\Models\Category;
+use Livewire\WithFileUploads;
 
 class ProductManager extends Component
 {
+    use WithFileUploads;
     public $product_id;
     public $product_name;
     public $description;
@@ -15,6 +17,7 @@ class ProductManager extends Component
     public $stock_quantity;
     public $category_id;
     public $editing = false;
+    public $image;
 
     public function saveProduct()
     {
@@ -23,7 +26,14 @@ class ProductManager extends Component
             'price' => 'required|numeric|min:0',
             'stock_quantity' => 'required|integer|min:0',
             'category_id' => 'required|exists:categories,id',
+            'image' => $this->product_id ? 'nullable|image|max:2048' : 'required|image|max:2048',
         ]);
+
+        $imagePath = null;
+
+        if ($this->image) {
+            $imagePath = $this->image->store('products', 'public');
+        }
 
         Product::updateOrCreate(
             ['id' => $this->product_id],
@@ -35,6 +45,7 @@ class ProductManager extends Component
                 'price' => $this->price,
                 'stock_quantity' => $this->stock_quantity,
                 'status' => $this->stock_quantity > 0 ? 'Available' : 'OutOfStock',
+                'image' => $imagePath,
             ]
         );
 
@@ -80,10 +91,10 @@ class ProductManager extends Component
     }
 
     public function render()
-{
-    return view('livewire.vendor.product-manager', [
-        'products' => Product::where('vendor_id', auth()->user()->vendor->id)->latest()->get(),
-        'categories' => Category::all(),
-    ])->layout('layouts.marketplace');
-}
+    {
+        return view('livewire.vendor.product-manager', [
+            'products' => Product::where('vendor_id', auth()->user()->vendor->id)->latest()->get(),
+            'categories' => Category::all(),
+        ])->layout('layouts.marketplace');
+    }
 }

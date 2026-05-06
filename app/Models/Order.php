@@ -37,4 +37,9 @@ class Order extends Model
     {
         return $this->hasMany(VendorPayout::class);
     }
+
+    public function items()
+    {
+        return $this->hasMany(\App\Models\OrderItem::class);
+    }
 }
